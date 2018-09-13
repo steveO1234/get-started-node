@@ -21,8 +21,10 @@ node {
             app.push("latest")
         }
     }
-    stage('Deploy') {
-        template=`cat "deployment.yaml" | sed "s/<REGISTRY>/$MYREGISTRY/g" | sed "s/<NAMESPACE>/$MYNAMESPACE/g"`
-        sh 'echo "$template" | kubectl apply -f -n default -'
+    stage('Deploy') {f
+        sh """
+            template=`cat "deployment.yaml" | sed "s/<REGISTRY>/$MYREGISTRY/g" | sed "s/<NAMESPACE>/$MYNAMESPACE/g"`
+            echo "$template" | kubectl apply -f -n default -'
+            """
     }
 }
