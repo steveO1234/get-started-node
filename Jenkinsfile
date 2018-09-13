@@ -22,6 +22,7 @@ node {
         }
     }
     stage('Deploy') {
-        sh 'kubectl create -f kubernetes/deployment.yaml'
+        template=`cat "deployment.yaml" | sed "s/<<REGISTRY>>/$MYREGISTRY/g" | sed "s/<<NAMESPACE>>/$MYNAMESPACE/g"`
+        sh 'echo "$template" | kubectl apply -f -n default -'
     }
 }
