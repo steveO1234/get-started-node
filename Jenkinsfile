@@ -23,7 +23,7 @@ node {
     }
     stage('Deploy') {
         sh """
-            template=`cat "deployment.yaml" | sed "s/<REGISTRY>/${params.MYREGISTRY}/g" | sed "s/<NAMESPACE>/${params.MYNAMESPACE}/g"`
+            template=`cat "kubernetes/deployment.yaml" | sed "s/<REGISTRY>/${MYREGISTRY}/g" | sed "s/<NAMESPACE>/${MYNAMESPACE}/g"`
             echo "$template" | kubectl apply -f -n default -'
             """
     }
