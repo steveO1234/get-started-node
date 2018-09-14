@@ -6,7 +6,7 @@ node {
     }
 
     stage('Build image') {
-        app = docker.build("rvennam/getstartednode")
+        app = docker.build(${MYNAMESPACE}+"/myapp")
     }
 
     stage('Test image') {
@@ -23,8 +23,7 @@ node {
     }
     stage('Deploy') {
         sh """
-            template=`cat "kubernetes/deployment.yaml" | sed "s/<REGISTRY>/${MYREGISTRY}/g" | sed "s/<NAMESPACE>/${MYNAMESPACE}/g"`
-            echo "$template" | kubectl apply -f -n default -'
+            cat "kubernetes/deployment.yaml" | sed "s/<REGISTRY>/${MYREGISTRY}/g" | sed "s/<NAMESPACE>/${MYNAMESPACE}/g" | kubectl apply -n default -f  -
             """
     }
 }
